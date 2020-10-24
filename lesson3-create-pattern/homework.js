@@ -47,3 +47,43 @@ cat.zooName = 'кот МЯУ';
 
 console.log(cat.fullInfo);
 console.log(fTiger.fullInfo);*/
+
+/*
+Напишите 2 класса, реализующие паттерн Abstract Factory на примере спортивных мероприятий. 
+Интерфейс для этих классов:
+interface SportEvent {
+    getSportsman();
+    getEvent();
+}
+*/
+
+class Sport {
+  constructor(sport, sex) {
+    this.sport = sport;
+    this.sex = sex;
+  }
+}
+
+class Event {
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+class FootballWorldChamp {
+
+  getSportsman() {
+    return new Sport('футбол', 'мужской')
+  }
+
+  getEvent() {
+    return new Event('чемпионат мира');
+  }
+}
+
+function makeChamp(sport, event) {
+  console.log(`Сегодня начинается ${sport.sex} ${event.name} по ${sport.sport}`);
+}
+
+const champ = new FootballWorldChamp;
+makeChamp(champ.getSportsman(), champ.getEvent());
