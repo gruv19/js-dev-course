@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Local Storage Adapter</title>
+</head>
+
+<body>
+  <script>
+    /*
+Задание №1
+Напишите класс адаптер для localStorage. 
+Реализуйте в адаптере интерфейс с методами: 
+set, get, includes и clear. 
+*/
+
+    /*class locStorAdapter {
+      constructor(localStor) {
+        this.store = localStor;
+      }
+
+      get(key) {
+        return this.store.getItem(key);
+      }
+
+      set(key, value) {
+        return this.store.setItem(key, value);
+      }
+
+      includes(key) {
+        return this.get(key) ? true : false;
+      }
+
+      clear() {
+        return this.store.clear();
+      }
+    }*/
+
+    /*const target = {
+      par1: 'par1',
+      par2: 'par2',
+      par3: 'par3',
+      par4: 'par4'
+    };
+
+    function getProxyPandler(target, property) {
+      if (property in target) {
+        localStorage.setItem(property, target[property]);
+        return target[property];
+      } else {
+        return 'hueta kakaya-to'; 
+      }
+    }
+
+    const proxy = new Proxy(target, {
+      get: getProxyPandler
+    });*/
+
+    /*console = new Proxy(console, {
+      get(target, property) {
+        // window.console.apply(target[property](), arguments);
+        localStorage.setItem(property, target[property]());
+        return target[property];
+      }
+    });*/
+    //console.log('ssss');
+
+    console.log = new Proxy(window.console.log, {
+      apply: function(target, thisagr, argList) {
+        localStorage.setItem(`${target.name}(${argList})`, argList);
+        return target(...argList);
+      }
+    });
+
+    console.log('sss', 'xxx', 'www');
+  </script>
+</body>
+
+</html>

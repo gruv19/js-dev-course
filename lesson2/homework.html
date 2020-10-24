@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Homework Sengleton</title>
+</head>
+<body>
+  <script>
+    class Singleton {
+      constructor() {
+        if (Singleton.instance) {
+          return Singleton.instance;
+        }
+
+        this.clicks = [];
+        this.keys = [];
+
+        Singleton.instance = this;
+      }
+
+      clickStat(event) {
+        const clickObj = {
+          x: event.clientX,
+          y: event.clientY,
+          clickTime: new Date()
+        };
+        Singleton.instance.clicks.push(clickObj);
+      }
+
+      keyStat(event) {
+        const keyObj = {
+          key: event.key,
+          code: event.keyCode,
+          clickTime: new Date()
+        };
+        Singleton.instance.keys.push(keyObj);
+      }
+
+      get showStat() {
+        console.log(Singleton.instance.clicks, Singleton.instance.keys)
+      }
+    }
+
+    const s = new Singleton();
+    const s1 = new Singleton();
+
+    document.addEventListener('click', s.clickStat);
+    document.addEventListener('keydown', s.keyStat);
+    document.addEventListener('contextmenu', event => {
+      event.preventDefault();
+      s1.showStat;
+      console.log(s1 == s);
+    });
+    
+  </script>
+</body>
+</html>
