@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homework</title>
+</head>
+
+<body>
+    <form action="">
+        <p>
+            <label for="name">
+                Имя пользователя: <input type="text" name="name" id="name">
+            </label>
+        </p>
+        <p>
+            <label for="email">
+                Email: <input type="text" name="email" id="email">
+            </label>
+        </p>
+        <p>
+            <label for="password">
+                Password: <input type="password" name="password" id="password">
+            </label>
+        </p>
+        <p>
+            <button>Отправить данные</button>
+        </p>
+    </form>
+
+    <script>
+        /*
+        Задание №5 (**)
+        Реализуйте Chain Of Responsibility паттерн для класса фильтрации данных.
+        Организуйте фильтрацию по типу данных: password, email, name.
+        */
+        /*
+         class Filter {
+             constructor() {
+                 this.fields = [];
+             }
+ 
+             add(field) {
+                 this.fields.push(field);
+             }
+ 
+             get names() {
+                 for(const field of this.fields) {
+                     if(field.key === 'name') console.log(field.value);
+                 }
+             }
+ 
+             get passwords() {
+                 for(const field of this.fields) {
+                     if(field.key === 'password') console.log(field.value);
+                 }
+             }
+ 
+             get emails() {
+                 for(const field of this.fields) {
+                     if(field.key === 'email') console.log(field.value);
+                 }
+             }
+         }
+ 
+         class Field {
+             constructor(key, value) {
+                 this.key = key;
+                 this.value = value;
+             }
+         }
+         const form = document.querySelector('form');
+         const button = document.querySelector('button');
+         const filter = new Filter;
+ 
+         button.addEventListener('click', event => {
+             event.preventDefault();
+             let formData = new FormData(form);
+             const entries = formData.entries();
+             for(const entry of entries) {
+                 filter.add( new Field(entry[0], entry[1]) );
+             }
+             filter.names;
+         });
+ 
+         // console.log(form.data);*/
+        class Node {
+            constructor() {
+                this.id = Node.idCounter++;
+                this.nodes = [];
+            }
+
+            static setConnection(a, b) {
+                if (!a.nodes.includes(b)) {
+                    a.nodes.push(b);
+                }
+
+                if (!b.nodes.includes(a)) {
+                    b.nodes.push(a);
+                }
+            }
+        }
+
+        Node.idCounter = 1
+
+        class Graph {
+            constructor() {
+                this.nodes = [];
+            }
+
+            addNode(node) {
+                if (!this.nodes.includes(node)) {
+                    this.nodes.push(node);
+                }
+            }
+
+            getNodeById(id) {
+                for (const node of this.nodes) {
+                    if (node.id === id) {
+                        return node;
+                    }
+                }
+            }
+        }
+
+        class Iterator {
+            constructor(graph) {
+                this.nodes = graph.nodes;
+                this.queue = [];
+            }
+
+
+
+            findPath(start, finish) {
+                // let queue = [];
+                if (start > finish) return false;
+                if (start === finish) {
+                    this.nodes[start - 1].visited = true;
+                    this.queue.push(this.nodes[start - 1].id);
+                    return true;
+                }
+                for(const node of this.nodes) {
+                    if (node.visited) {
+                        return false;
+                    }
+
+                    
+                    if (node.id === finish) {
+                        this.queue.push(node.id);
+                        node.visited = true;
+                        return true;
+                    } 
+                    
+                    if (node.id === start) {
+                        this.queue.push(node.id);
+                        node.visited = true;
+                        let iter = new Iterator(node);
+                        start++;
+                        iter.findPath(1, finish);
+                    } 
+                }
+                // let i = 0;
+                // while ()
+            }
+        }
+
+        const graph = new Graph
+
+        for (let i = 0; i < 10; i++) {
+            graph.addNode(new Node);
+        }
+
+        for (const [id1, id2] of [[1, 2], [2, 3], /*[3, 4],*/ [4, 5], [5, 6], [7, 8], [8, 9], [9, 10], [3, 5], [2, 9]]) {
+            Node.setConnection(
+                graph.getNodeById(id1),
+                graph.getNodeById(id2)
+            );
+        }
+
+        const iterator = new Iterator(graph);
+        console.log(iterator);
+        let res = iterator.findPath(1, 5);
+
+        console.log(iterator.queue);
+    </script>
+</body>
+
+</html>
